@@ -1,0 +1,62 @@
+
+<html lang="en">
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+  <script src="../microgear.js"></script>
+</head>
+
+<body>
+<pre>
+    {
+        Message: "successfully",
+    }
+</pre>
+<input id="val" value="{{ name }}" type="hidden" />
+
+</body>
+
+<script>
+      $(document).ready(function(){
+          var val = $("#val").val();
+         microgear.publish("/home/"+val,""+true);
+      });
+        const APPID     = 'botController';
+        const APPKEY    = 'T6WOUHZYkI0g0Ek';
+        const APPSECRET = 'pK0gY7XBaedEu6GQ4chMxBegW';
+        const ALIAS = 'Control';
+
+        var microgear = Microgear.create({
+            key: APPKEY,
+            secret: APPSECRET,
+            alias : ALIAS         /*  optional  */
+        });
+
+        microgear.on('message',function(topic,msg) {
+            //
+        });
+
+        microgear.on('connected', function() {
+            microgear.setAlias(ALIAS);    /* alias can be renamed anytime with this function */
+            microgear.subscribe("/home/+");
+            
+        });
+
+        microgear.on('present', function(event) {
+            console.log(event);
+        });
+
+        microgear.on('absent', function(event) {
+            console.log(event);
+        });
+
+        microgear.resettoken(function(err) {
+            microgear.connect(APPID);
+        });   
+</script>
+</html>
